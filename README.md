@@ -1,59 +1,70 @@
 # 🎧 Lyrics API
 
 ## 📖 Description
-
-Lyrics API is a RESTful service developed in **Java with Spring Boot** that processes song lyrics and transforms them into a structured format to support language learning.
-
-The application receives a full song lyric, automatically splits it into verses, and prepares each line for translation and audio generation. This enables a learning experience where users can read the original text alongside its translation and, in future versions, listen to the pronunciation of each verse.
+Lyrics API is a reactive REST service built with **Java + Spring Boot**, capable of processing song lyrics, automatically splitting them into verses, and translating each verse **in parallel** using WebFlux.  
+The API serves as a foundation for language‑learning through music, allowing users to read the original text, its translation, and in the future, audio (TTS).
 
 ---
 
-## 🎯 Objective
-
-The main goal of this project is to provide a backend service capable of:
-
-- Processing raw song lyrics
-- Structuring text into individual verses
-- Supporting translation of each verse
-- Enabling audio generation per verse (Text-to-Speech)
-
-This API serves as the foundation for a platform focused on learning languages through music.
+## 🎯 Objectives
+- Process full song lyrics sent by the user  
+- Automatically split text into verses (`\n`)  
+- Translate each verse individually  
+- Execute multiple translations in parallel  
+- Maintain the original order of verses  
+- Prepare data structure for Text‑to‑Speech  
+- Return clean and structured JSON  
 
 ---
 
 ## 🚀 Features
-
-- Receive full song lyrics as input
-- Automatically split lyrics into verses
-- Clean and normalize text (remove empty lines and extra spaces)
-- Return structured data for each verse
-- Prepare data for translation and audio integration
-
----
-
-## 🛠️ Technologies
-
-- **Java 17+**
-- **Spring Boot**
-- **Spring Web**
-- **Lombok**
-- **Maven**
+- Receives full song lyrics as input  
+- Automatically splits into lines  
+- Cleans and normalizes spaces  
+- Translates each verse using **Langbly API**  
+- Uses **WebFlux + WebClient** for real parallel processing  
+- Maintains verse order using `flatMapSequential`  
+- Final structure includes:  
+  - `origin`  
+  - `translated`  
+  - `audioUrl` (future implementation)  
 
 ---
 
-## 📌 API Endpoint
-
-### ▶️ Process Lyrics
-
-**POST** `/lyrics/process`
+## 🛠 Technologies
+- **Java 17+**  
+- **Spring Boot**  
+- **Spring WebFlux**  
+- **Project Reactor (Flux/Mono)**  
+- **WebClient**  
+- **Maven**  
+- **Lombok**  
+- **Langbly Translation API**  
 
 ---
 
-## 📥 Request
+## 🔌 Langbly API Configuration
+In the `application.properties` file:
+```properties
+langbly.api.key=${LANGBLY_API_KEY}
+```
 
+Environment variable:
+```bash
+setx LANGBLY_API_KEY "your_key_here"
+```
+
+---
+
+## 📡 Endpoint
+### ▶️ POST `/lyrics/process`
+
+---
+
+## 📥 Request Example
 ```json
 {
-  "text": "Hello, how are you?\nI'm fine, thank you.",
+  "text": "Hello darkness my old friend\nI've come to talk with you again",
   "sourceLang": "en",
   "targetLang": "pt"
 }
@@ -61,19 +72,18 @@ This API serves as the foundation for a platform focused on learning languages t
 
 ---
 
-## 📤 Response
-
+## 📤 Response Example
 ```json
 {
   "verses": [
     {
-      "original": "Hello, how are you?",
-      "translated": null,
+      "origin": "Hello darkness my old friend",
+      "translated": "Olá escuridão minha velha amiga",
       "audioUrl": null
     },
     {
-      "original": "I'm fine, thank you.",
-      "translated": null,
+      "origin": "I've come to talk with you again",
+      "translated": "Eu vim falar com você novamente",
       "audioUrl": null
     }
   ]
@@ -83,51 +93,29 @@ This API serves as the foundation for a platform focused on learning languages t
 ---
 
 ## 🔄 Processing Flow
-
-1. The API receives the full lyrics text  
-2. The text is split into individual lines (verses)  
-3. Each line is cleaned and validated  
-4. A structured response is created for each verse  
-5. (Future) Each verse will be translated and converted to audio  
-
----
-
-## 📁 Project Structure
-
-```
-controller/
-service/
-dto/
-client/
-```
-
----
-
-## 🔮 Future Improvements
-
-- 🌍 Integration with translation APIs (Google Translate / DeepL)  
-- 🔊 Text-to-Speech (TTS) for audio playback  
-- 💾 Database integration for storing processed lyrics  
-- 🔐 Authentication and user management (JWT)  
-- 🎵 Integration with lyrics/music APIs  
-- 📱 Frontend application (React)  
+1. The API receives the full lyrics  
+2. Splits text into lines using `split("\n")`  
+3. Removes empty or invalid lines  
+4. Converts all lines into a `Flux<String>`  
+5. Translates each verse **in parallel** using `flatMap`  
+6. Preserves the original order using `flatMapSequential`  
+7. Collects all verses into a list with `collectList()`  
+8. Returns a structured `LyricsResponse`  
 
 ---
 
 ## ⚠️ Notes
-
-- This project is for educational and portfolio purposes  
-- Lyrics should be provided by the user to avoid copyright issues  
-- External API usage may introduce costs in future versions  
+- The user must provide the lyrics (copyright reasons)  
+- Translation API may incur costs  
+- Project created for educational and portfolio purposes  
 
 ---
 
 ## 👨‍💻 Author
-
 Developed by **Willian Wu**
 
 ---
 
-## 📌 Status
-
-🚧 In development — core processing functionality implemented
+## 📌 Current Status
+🚀 Reactive parallel translation functional  
+🔧 Continuous improvements in progress  
