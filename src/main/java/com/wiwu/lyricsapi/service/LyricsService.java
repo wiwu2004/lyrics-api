@@ -1,33 +1,44 @@
 package com.wiwu.lyricsapi.service;
 
+import com.wiwu.lyricsapi.client.LangblyClient;
 import com.wiwu.lyricsapi.dto.LyricsResponse;
-import com.wiwu.lyricsapi.dto.VerseDTO;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.wiwu.lyricsapi.dto.VerseResponse;
 import org.springframework.stereotype.Service;
-
-import java.util.ArrayList;
-import java.util.List;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 @Service
 public class LyricsService {
 
+    private final LangblyClient langblyClient;
 
-    public LyricsResponse process(String text){
-        List<VerseDTO> verses = new ArrayList<>();
-        String[] lines = text.split("\n");
-        for (String line : lines){
-            String cleaned = line.trim();
+    public LyricsService(LangblyClient langblyClient) {
+        this.langblyClient = langblyClient;
+    }
 
-            if(!cleaned.isEmpty()){
-                VerseDTO verse = new VerseDTO();
-                verse.setOrigin(cleaned);
-                verse.setTranslated(null);
-                verse.setAudioUrl(null);
-                verses.add(verse);
-            }
-        }
-        LyricsResponse response = new LyricsResponse();
-        response.setVerses(verses);
-        return  response;
+    public Mono<LyricsResponse> process(String text) {
+
+        return Flux.fromArray(text.split("\n"))
+                .map(String::trim)
+                .filter(line -> !line.isEmpty())
+                .flatMapSequential(this::translateVerse)
+                .collectList()
+                .map(verses -> {
+                    LyricsResponse response = new LyricsResponse();
+                    response.setVerses(verses);
+                    return response;
+                });
+    }
+
+    private Mono<VerseResponse> translateVerse(String line) {
+
+        return langblyClient.translate(line, "en", "pt")
+                .map(translated -> {
+                    VerseResponse verse = new VerseResponse();
+                    verse.setOrigin(line);
+                    verse.setTranslated(translated);
+                    verse.setAudioUrl(null);
+                    return verse;
+                });
     }
 }

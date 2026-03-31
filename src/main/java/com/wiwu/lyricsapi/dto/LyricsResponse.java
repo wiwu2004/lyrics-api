@@ -5,13 +5,13 @@ import java.util.Objects;
 
 public class LyricsResponse {
 
-    private List<VerseDTO> verses;
+    private List<VerseResponse> verses;
 
-    public List<VerseDTO> getVerses() {
+    public List<VerseResponse> getVerses() {
         return verses;
     }
 
-    public void setVerses(List<VerseDTO> verses) {
+    public void setVerses(List<VerseResponse> verses) {
         this.verses = verses;
     }
 

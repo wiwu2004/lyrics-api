@@ -2,7 +2,7 @@ package com.wiwu.lyricsapi.dto;
 
 import java.util.Objects;
 
-public class VerseDTO {
+public class VerseResponse {
     private String origin;
     private String translated;
     private String audioUrl;
@@ -33,8 +33,8 @@ public class VerseDTO {
 
     @Override
     public boolean equals(Object o) {
-        if (!(o instanceof VerseDTO verseDTO)) return false;
-        return Objects.equals(getOrigin(), verseDTO.getOrigin()) && Objects.equals(getTranslated(), verseDTO.getTranslated()) && Objects.equals(getAudioUrl(), verseDTO.getAudioUrl());
+        if (!(o instanceof VerseResponse verseResponse)) return false;
+        return Objects.equals(getOrigin(), verseResponse.getOrigin()) && Objects.equals(getTranslated(), verseResponse.getTranslated()) && Objects.equals(getAudioUrl(), verseResponse.getAudioUrl());
     }
 
     @Override
