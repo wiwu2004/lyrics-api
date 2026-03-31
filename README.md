@@ -49,7 +49,7 @@ This API serves as the foundation for a platform focused on learning languages t
 
 ---
 
-### 📥 Request
+## 📥 Request
 
 ```json
 {
@@ -57,3 +57,77 @@ This API serves as the foundation for a platform focused on learning languages t
   "sourceLang": "en",
   "targetLang": "pt"
 }
+```
+
+---
+
+## 📤 Response
+
+```json
+{
+  "verses": [
+    {
+      "original": "Hello, how are you?",
+      "translated": null,
+      "audioUrl": null
+    },
+    {
+      "original": "I'm fine, thank you.",
+      "translated": null,
+      "audioUrl": null
+    }
+  ]
+}
+```
+
+---
+
+## 🔄 Processing Flow
+
+1. The API receives the full lyrics text  
+2. The text is split into individual lines (verses)  
+3. Each line is cleaned and validated  
+4. A structured response is created for each verse  
+5. (Future) Each verse will be translated and converted to audio  
+
+---
+
+## 📁 Project Structure
+
+```
+controller/
+service/
+dto/
+client/
+```
+
+---
+
+## 🔮 Future Improvements
+
+- 🌍 Integration with translation APIs (Google Translate / DeepL)  
+- 🔊 Text-to-Speech (TTS) for audio playback  
+- 💾 Database integration for storing processed lyrics  
+- 🔐 Authentication and user management (JWT)  
+- 🎵 Integration with lyrics/music APIs  
+- 📱 Frontend application (React)  
+
+---
+
+## ⚠️ Notes
+
+- This project is for educational and portfolio purposes  
+- Lyrics should be provided by the user to avoid copyright issues  
+- External API usage may introduce costs in future versions  
+
+---
+
+## 👨‍💻 Author
+
+Developed by **Willian Wu**
+
+---
+
+## 📌 Status
+
+🚧 In development — core processing functionality implemented
