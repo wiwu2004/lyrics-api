@@ -17,7 +17,10 @@ public class LyricsController {
 
     @PostMapping("/process")
     public Mono<ResponseEntity<LyricsResponse>> process(@RequestBody LyricsRequest request) {
-        return service.process(request.getText())
+        return service.process(
+                        request.getText(),
+                        request.getSourceLang(),
+                        request.getTargetLang())
                 .map(ResponseEntity::ok);
     }
 }
