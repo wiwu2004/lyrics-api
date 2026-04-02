@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lyrics Translator</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <div class="noise"></div>
+
+  <header>
+    <div class="logo">
+      <span class="vinyl">◉</span>
+      <span class="site-name">lyriq</span>
+    </div>
+    <p class="tagline">translate the music, keep the soul</p>
+  </header>
+
+  <main class="app">
+
+    <div class="card input-card">
+      <label class="field-label">Paste your lyrics</label>
+      <textarea id="text" placeholder="Every breath you take&#10;Every move you make…"></textarea>
+
+      <div class="selectors">
+        <div class="select-wrap">
+          <span class="select-label">From</span>
+          <select id="sourceLang">
+            <option value="EN">🇬🇧 English</option>
+            <option value="ES">🇪🇸 Spanish</option>
+            <option value="PT">🇧🇷 Portuguese</option>
+            <option value="FR">🇫🇷 French</option>
+            <option value="DE">🇩🇪 German</option>
+            <option value="IT">🇮🇹 Italian</option>
+            <option value="JA">🇯🇵 Japanese</option>
+          </select>
+        </div>
+
+        <div class="arrow-sep">→</div>
+
+        <div class="select-wrap">
+          <span class="select-label">To</span>
+          <select id="targetLang">
+            <option value="PT">🇧🇷 Portuguese</option>
+            <option value="EN">🇬🇧 English</option>
+            <option value="ES">🇪🇸 Spanish</option>
+            <option value="FR">🇫🇷 French</option>
+            <option value="DE">🇩🇪 German</option>
+            <option value="IT">🇮🇹 Italian</option>
+            <option value="JA">🇯🇵 Japanese</option>
+          </select>
+        </div>
+      </div>
+
+      <button id="translateBtn">
+        <span class="btn-icon">♪</span>
+        Translate lyrics
+      </button>
+    </div>
+
+    <div id="loading" class="loading hidden">
+      <div class="spinner"></div>
+      <span>Reading the music…</span>
+    </div>
+
+    <div id="result"></div>
+
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>

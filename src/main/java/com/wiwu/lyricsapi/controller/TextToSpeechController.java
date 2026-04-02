@@ -27,7 +27,7 @@ public class TextToSpeechController {
     @GetMapping("/audio")
     public Mono<ResponseEntity<byte[]>> generateAudio(
             @RequestParam String text,
-            @RequestParam(defaultValue = "en")Language lang
+            @RequestParam(defaultValue = "EN")Language lang
             ) {
         return textToSpeechClient.generateAudio(text, lang)
                 .map(audio ->
