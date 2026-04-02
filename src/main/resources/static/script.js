@@ -65,7 +65,6 @@ function renderVerses(verses, sourceLang) {
   });
 }
 
-/* ── Helpers ────────────────────────────────────── */
 
 function escapeHtml(str) {
   return str
